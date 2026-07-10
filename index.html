@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДРЦС — Статус проектов, 10 июля 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F1535;
+    --navy-mid: #1A2347;
+    --navy-light: #232E55;
+    --accent: #00C896;
+    --accent2: #4E8CFF;
+    --accent3: #FF6B6B;
+    --gold: #F5C842;
+    --text: #E8EAF0;
+    --text-muted: #8B93B5;
+    --card: rgba(255,255,255,0.04);
+    --card-border: rgba(255,255,255,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(15,21,53,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-date {
+    font-size: 12px; color: var(--text-muted);
+    background: var(--card); border: 1px solid var(--card-border);
+    padding: 6px 14px; border-radius: 20px; letter-spacing: 0.04em;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 60vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding: 100px 48px 64px;
+    text-align: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(78,140,255,0.1) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,200,150,0.07) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px; position: relative;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent); opacity: 0.4;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.95; letter-spacing: 0.02em;
+    position: relative; margin-bottom: 16px;
+  }
+  .hero-title .line-accent { color: var(--accent); }
+  .hero-sub {
+    font-size: 16px; color: var(--text-muted);
+    max-width: 520px; line-height: 1.7; margin: 0 auto 48px;
+    position: relative;
+  }
+  .hero-kpis {
+    display: flex; gap: 48px; justify-content: center;
+    position: relative; flex-wrap: wrap;
+  }
+  .hero-kpi { text-align: center; }
+  .hero-kpi-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 48px; line-height: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-kpi-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .hero-kpi-divider { width: 1px; background: var(--card-border); align-self: stretch; }
+
+  /* SECTIONS */
+  section { padding: 80px 48px; max-width: 1200px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 4vw, 52px);
+    line-height: 1; margin-bottom: 12px;
+  }
+  .section-desc { font-size: 15px; color: var(--text-muted); max-width: 560px; line-height: 1.7; margin-bottom: 48px; }
+
+  /* STATUS CARDS */
+  .status-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .status-card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 20px; padding: 32px; position: relative; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .status-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.14); }
+  .status-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .card-active::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .card-revision::before { background: linear-gradient(90deg, var(--gold), #FF9F43); }
+  .card-waiting::before { background: linear-gradient(90deg, var(--accent2), #A855F7); }
+  .card-analysis::before { background: linear-gradient(90deg, #A855F7, var(--accent3)); }
+
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .card-status-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px; white-space: nowrap;
+  }
+  .badge-active { background: rgba(0,200,150,0.15); color: var(--accent); border: 1px solid rgba(0,200,150,0.25); }
+  .badge-revision { background: rgba(245,200,66,0.15); color: var(--gold); border: 1px solid rgba(245,200,66,0.25); }
+  .badge-waiting { background: rgba(78,140,255,0.15); color: var(--accent2); border: 1px solid rgba(78,140,255,0.25); }
+  .badge-analysis { background: rgba(168,85,247,0.15); color: #A855F7; border: 1px solid rgba(168,85,247,0.25); }
+
+  .card-deadline {
+    font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;
+  }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.03em;
+    margin-bottom: 6px; line-height: 1.1;
+  }
+  .progress-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; margin-top: 16px; }
+  .progress-row span:last-child { font-weight: 700; color: var(--accent); }
+  .progress-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; margin-bottom: 24px; }
+  .progress-fill { height: 100%; border-radius: 2px; }
+  .fill-green { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .fill-gold { background: linear-gradient(90deg, var(--gold), #FF9F43); }
+  .fill-blue { background: linear-gradient(90deg, var(--accent2), #A855F7); }
+  .fill-purple { background: linear-gradient(90deg, #A855F7, var(--accent3)); }
+
+  .card-updates { border-top: 1px solid var(--card-border); padding-top: 20px; }
+  .updates-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+  .update-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+  .update-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); margin-top: 6px; flex-shrink: 0; }
+  .update-text { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+    /* QR STATS BY BRANCH */
+  .qr-stats { border-top: 1px solid var(--card-border); padding-top: 18px; margin-top: 20px; }
+  .qr-stats-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .qr-stats-total { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.02em; color: var(--text); }
+  .qr-stats-total span { color: var(--accent2); }
+  .qr-row { display: grid; grid-template-columns: 92px 1fr 34px; align-items: center; gap: 10px; margin-bottom: 7px; }
+  .qr-row-name { font-size: 11.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qr-row-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .qr-row-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent2), #A855F7); }
+  .qr-row-val { font-size: 11.5px; font-weight: 700; color: var(--text); text-align: right; }
+
+  /* ROADMAP */
+  .roadmap-table { width: 100%; border-collapse: collapse; }
+  .roadmap-table th {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); padding: 16px 20px; text-align: left;
+  }
+  .roadmap-table th.month { text-align: center; }
+  .roadmap-table td { padding: 14px 20px; border-top: 1px solid var(--card-border); font-size: 13px; vertical-align: middle; }
+  .roadmap-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .rm-dot {
+    margin: auto; width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .rm-done { background: rgba(0,200,150,0.2); }
+  .rm-done svg { stroke: var(--accent); }
+  .rm-active { background: rgba(245,200,66,0.15); }
+  .rm-active svg { stroke: var(--gold); }
+  .rm-planned { background: rgba(78,140,255,0.12); }
+  .rm-planned svg { stroke: var(--accent2); }
+
+  .task-name { font-weight: 600; font-size: 13px; }
+  .task-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 20px; padding: 16px 20px; border-top: 1px solid var(--card-border); flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+
+  /* TENGE24 TABLE */
+  .t24-table { display: flex; flex-direction: column; border-top: 1px solid var(--card-border); }
+  .t24-row {
+    display: grid; grid-template-columns: 40px 1fr auto;
+    align-items: center; gap: 20px;
+    padding: 22px 8px; border-bottom: 1px solid var(--card-border);
+  }
+  .t24-row:hover { background: rgba(255,255,255,0.02); }
+  .t24-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--text-muted);
+  }
+  .t24-task { font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.4; }
+  .t24-status { justify-self: end; }
+  .t24-badge {
+    font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 20px;
+    white-space: nowrap; text-align: right; letter-spacing: 0.01em;
+  }
+  .t24-done { background: rgba(0,200,150,0.15); color: var(--accent); border: 1px solid rgba(0,200,150,0.25); }
+  .t24-progress { background: rgba(78,140,255,0.15); color: var(--accent2); border: 1px solid rgba(78,140,255,0.25); }
+  .t24-testing { background: rgba(245,200,66,0.15); color: var(--gold); border: 1px solid rgba(245,200,66,0.25); }
+
+  @media (max-width: 768px) {
+    .t24-row { grid-template-columns: 28px 1fr; }
+    .t24-status { grid-column: 1 / -1; justify-self: start; margin-top: 4px; }
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--card-border);
+    padding: 40px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.1em; }
+  .footer-brand span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 56px 20px; }
+    .hero { padding: 100px 20px 56px; }
+    .status-grid { grid-template-columns: 1fr; }
+    footer { padding: 32px 20px; flex-direction: column; gap: 16px; }
+    .hero-kpis { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+ <div class="nav-logo"><img src="logo.png" style="width: 170px;"/></div>
+  <div class="nav-links">
+    <a href="#status">Статусы</a>
+    <a href="#tenge24">Tenge 24</a>
+  </div>
+  <div class="nav-date">Обновление: 10 июля 2026</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">Департамент Разработки Цифровых Систем</div>
+  <h1 class="hero-title">
+    Статус<br><span class="line-accent">проектов</span>
+  </h1>
+  <p class="hero-sub">Обновление с 03 июля по 10 июля 2026 года.</p>
+  <div class="hero-kpis">
+    <div class="hero-kpi">
+      <div class="hero-kpi-num">3</div>
+      <div class="hero-kpi-label">Проекта в фокусе</div>
+    </div>
+    <div class="hero-kpi-divider"></div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-num">3</div>
+      <div class="hero-kpi-label">Активно</div>
+    </div>
+    <div class="hero-kpi-divider"></div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-num">0</div>
+      <div class="hero-kpi-label">На доработке</div>
+    </div>
+    <div class="hero-kpi-divider"></div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-num">0</div>
+      <div class="hero-kpi-label">В ожидании / анализе</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATUS -->
+<section id="status">
+  <div class="section-eyebrow">Статусы</div>
+  <h2 class="section-title">Проекты в работе</h2>
+
+
+  <div class="status-grid">
+
+    <!-- МОНИТОРИНГ БАНКОМАТОВ -->
+    <div class="status-card card-active fade-up">
+      <div class="card-header">
+        <span class="card-status-badge badge-active">● Активно</span>
+        <span class="card-deadline">⏱ 15.06.2026 по Diebold agent разработке по ПЦ HUMO</span>
+      </div>
+      <div class="card-title">Мониторинг банкоматов</div>
+      <div class="progress-row"><span>Прогресс</span><span>85%</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-green" style="width:85%"></div></div>
+      <div class="card-updates">
+        <div class="updates-label">Обновления</div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Diebold по ПЦ HUMO: Жаркын подтвердил информативность логов по CASH MANAGEMENT</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">База данных Мониторинга Банкоматов нуждается в миграции в новую БД. Было замечано что ОЗУ было забито на текущей БД, временно увеличили память</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Совместно с ДБК финализируем Diebold агент по ПЦ HUMO и пустим в тираж. Дедлайн тиражирования за ДБК</div></div>
+
+      </div>
+    </div>
+   
+     <!-- ЕДИНЫЙ QR -->
+    <div class="status-card card-waiting fade-up delay-2">
+      <div class="card-header">
+       <span class="card-status-badge badge-active">● Активно</span>
+        <span class="card-deadline">1 июля запущено</span>
+      </div>
+      <div class="card-title">Единый QR</div>
+      <div class="progress-row"><span>Прогресс</span><span>99%</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-blue" style="width:99%"></div></div>
+      <div class="card-updates">
+        <div class="updates-label">Обновления</div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Cгенерировано 1801 QR кодов</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Проводки ДРИС с другими подразделениями проверили</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Проблема со сменой номера телефона у мерчантов устранена</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Провели встречу по контролю Единого QR. Коллеги выйдут с предложениями как выставить контроль</div></div>
+     
+      </div>
+       <div class="qr-stats">
+        <div class="qr-stats-header">
+          <div class="updates-label" style="margin-bottom:0;">QR по филиалам</div>
+          <div class="qr-stats-total">Итого: <span>1801</span></div>
+        </div>
+
+        <div class="qr-row"><div class="qr-row-name">Бухара</div><div class="qr-row-track"><div class="qr-row-fill" style="width:100%"></div></div><div class="qr-row-val">343</div></div>
+        <div class="qr-row"><div class="qr-row-name">Ташкент</div><div class="qr-row-track"><div class="qr-row-fill" style="width:71%"></div></div><div class="qr-row-val">244</div></div>
+        <div class="qr-row"><div class="qr-row-name">Самарканд</div><div class="qr-row-track"><div class="qr-row-fill" style="width:70%"></div></div><div class="qr-row-val">240</div></div>
+        <div class="qr-row"><div class="qr-row-name">Nest One</div><div class="qr-row-track"><div class="qr-row-fill" style="width:59%"></div></div><div class="qr-row-val">201</div></div>
+        <div class="qr-row"><div class="qr-row-name">Андижан</div><div class="qr-row-track"><div class="qr-row-fill" style="width:57%"></div></div><div class="qr-row-val">194</div></div>
+        <div class="qr-row"><div class="qr-row-name">Фергана</div><div class="qr-row-track"><div class="qr-row-fill" style="width:37%"></div></div><div class="qr-row-val">127</div></div>
+        <div class="qr-row"><div class="qr-row-name">Наманган</div><div class="qr-row-track"><div class="qr-row-fill" style="width:27%"></div></div><div class="qr-row-val">94</div></div>
+        <div class="qr-row"><div class="qr-row-name">Навои</div><div class="qr-row-track"><div class="qr-row-fill" style="width:27%"></div></div><div class="qr-row-val">92</div></div>
+        <div class="qr-row"><div class="qr-row-name">Way2</div><div class="qr-row-track"><div class="qr-row-fill" style="width:22%"></div></div><div class="qr-row-val">76</div></div>
+        <div class="qr-row"><div class="qr-row-name">Бешагач</div><div class="qr-row-track"><div class="qr-row-fill" style="width:18%"></div></div><div class="qr-row-val">61</div></div>
+        <div class="qr-row"><div class="qr-row-name">Нукус</div><div class="qr-row-track"><div class="qr-row-fill" style="width:15%"></div></div><div class="qr-row-val">51</div></div>
+        <div class="qr-row"><div class="qr-row-name">Кашкадарья</div><div class="qr-row-track"><div class="qr-row-fill" style="width:9%"></div></div><div class="qr-row-val">31</div></div>
+        <div class="qr-row"><div class="qr-row-name">Хадра</div><div class="qr-row-track"><div class="qr-row-fill" style="width:7%"></div></div><div class="qr-row-val">24</div></div>
+        <div class="qr-row"><div class="qr-row-name">Новза</div><div class="qr-row-track"><div class="qr-row-fill" style="width:7%"></div></div><div class="qr-row-val">23</div></div>
+      </div>
+      
+    </div>
+
+    <!-- ВНУТРЕННИЙ ПОРТАЛ -->
+    <div class="status-card card-analysis fade-up delay-3">
+      <div class="card-header">
+        <span class="card-status-badge badge-active">● Активно</span>
+        <span class="card-deadline">⏱ Срок немного отодвигается (Трудовая дисциплина) — до конца июля 2026</span>
+      </div>
+      <div class="card-title">Внутренний портал</div>
+      <div class="progress-row"><span>Прогресс</span><span>75%</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-purple" style="width:70%"></div></div>
+      <div class="card-updates">
+        <div class="updates-label">Обновления</div>
+        
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Реализована логика подсчета рабочего времени сотрудников</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Сегодня отдам на разработку</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Произвены работы по миграции данных на новую тестовую базу данных</div></div>
+        <div class="update-item"><div class="update-dot"></div><div class="update-text">Отправка уведомлений на почту: с днем рождения, благодарности</div></div>
+      </div>
+    </div>
+
+
+
+  </div>
+</section>
+
+<footer>
+  <div>
+
+    <div class="footer-note" style="margin-top: 4px;">Департамент Разработки Цифровых Систем · 2026</div>
+  </div>
+
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
